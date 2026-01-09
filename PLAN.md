@@ -7,7 +7,6 @@
 You are **NOT** building Spotify.
 
 You are building a **Spotify-like MVP** with:
-
 - Limited users
 - No paid infrastructure
 - Creator-focused features
@@ -97,6 +96,7 @@ We **do NOT store songs**, only metadata.
   "audio_preview_url": "",
   "duration": ""
 }
+```
 
 ### Pros
 - No storage cost
@@ -108,7 +108,9 @@ We **do NOT store songs**, only metadata.
 - Full song playback not possible
 - Depends on external API availability
 
-### 3. Client-heavy, server-light approach
+---
+
+## 3. Client-heavy, server-light approach
 
 | Part              | Where              |
 | ----------------- | ------------------ |
@@ -120,30 +122,28 @@ We **do NOT store songs**, only metadata.
 | Metadata          | Supabase DB        |
 | Media files       | Client / Temporary |
 
+---
 
-### 4. Remix Feature — Camera, Video, Filters
+## 4. Remix Feature — Camera, Video, Filters
 
-#### Camera Recording (No Server)
+### Camera Recording (No Server)
 
 Use browser APIs:
-
-- MediaDevices.getUserMedia()
-- MediaRecorder
+- `MediaDevices.getUserMedia()`
+- `MediaRecorder`
 
 ### Recording Flow
-User records video
-↓
-Stored in memory (Blob)
-↓
-User edits / applies filters
-↓
-Preview
-↓
-Optional upload if user saves
-
+1. User records video
+2. ↓
+3. Stored in memory (Blob)
+4. ↓
+5. User edits / applies filters
+6. ↓
+7. Preview
+8. ↓
+9. Optional upload if user saves
 
 ### Video Storage Strategy
-
 - Do NOT upload by default
 - Store in browser memory or IndexedDB
 - Upload only when explicitly saved
@@ -151,14 +151,12 @@ Optional upload if user saves
 ### Filters & Effects (No Backend)
 
 #### Technologies:
-
 - Canvas API
 - WebGL (Three.js / PixiJS)
 - CSS filters
 - FFmpeg.wasm (advanced use)
 
 #### Examples:
-
 - Neon glow
 - Glitch effects
 - Color shifts
@@ -173,69 +171,64 @@ Optional upload if user saves
 - CPU intensive
 - Requires optimization
 
+---
 
-### 5. Karaoke — Audio Recording & Storage
+## 5. Karaoke — Audio Recording & Storage
 
-#### Recording Tools
-
-- MediaRecorder
+### Recording Tools
+- `MediaRecorder`
 - Web Audio API (AudioContext)
 
 ### Recording Flow
-Instrumental plays
-↓
-Microphone records voice
-↓
-Audio stored as Blob
-↓
-Optional waveform generation
+1. Instrumental plays
+2. ↓
+3. Microphone records voice
+4. ↓
+5. Audio stored as Blob
+6. ↓
+7. Optional waveform generation
 
 ### Storage Strategy
-
 - Do NOT auto-upload
 - Keep recordings local first
 - Upload only if user saves
 
 ### If uploaded:
-
 - Compress audio
 - Limit duration
 - Store only user-generated content
 
+---
 
-### 6. Waveforms — How Spotify-Style Waveforms Work
+## 6. Waveforms — How Spotify-Style Waveforms Work
 
 - No server-side audio analysis
 - All processing happens client-side
 
 ### Tools
-
 - Web Audio API
 - Audio buffer decoding
 - Client-side peak generation
 
 ### Libraries
-
 - WaveSurfer.js
 - Custom AudioContext logic
 
 ### Pros
-
 - Instant rendering
 - No backend cost
 - Fully interactive
 
+---
 
-### 7. Database — What Supabase Stores
+## 7. Database — What Supabase Stores
 
-#### What We Do NOT Store
-
+### What We Do NOT Store
 - Audio files
 - Video files
 - Media blobs
 
-#### What We Store (Metadata Only)
-
+### What We Store (Metadata Only)
 - users
 - songs (API-based)
 - playlists
@@ -246,39 +239,33 @@ Optional waveform generation
 
 Media is either temporary or user-uploaded only.
 
+---
 
-### 8. Deployment — Avoiding Render Issues
+## 8. Deployment — Avoiding Render Issues
 
-#### Avoid
-
+### Avoid
 - Backend-heavy architecture
 - Always-on servers
-
-#### SSR everywhere
+- SSR everywhere
 
 ### Recommended Stack
 
 #### Frontend
-
 - HTML, CSS, JS
 - React (if needed)
 
 #### Backend
-
 - Supabase (Auth + DB)
-
-#### No custom backend initially
+- No custom backend initially
 
 #### Hosting
+- Vercel OR Netlify
 
-- Vercel
-OR
-Netlify
+**Static-first deployment is mandatory.**
 
-### Static-first deployment is mandatory.
+---
 
-
-### 9. Final Recommended MVP Stack
+## 9. Final Recommended MVP Stack
 
 | Layer          | Technology               |
 | -------------- | ------------------------ |
@@ -292,70 +279,74 @@ Netlify
 | Hosting        | Vercel                   |
 | Media Handling | Browser-first            |
 
+---
 
-### Biggest Mistake to Avoid
+## Biggest Mistake to Avoid
 
 - Treating this like a backend-heavy project.
-- Thinking this is a frontend-driven product.
+- **Thinking this is a frontend-driven product** (Wait, checks text: 'Thinking this is a frontend-driven product' was listed as a mistake? Or implies it IS a frontend driven product? The original text said:
+> - Treating this like a backend-heavy project.
+> - Thinking this is a frontend-driven product.
 
+This phrasing is contradictory or implies it's *neither* or *both*? Given the context ("Client-heavy, server-light"), it likely means "Don't think this is JUST a frontend product (it has complex logic)" or maybe it meant "Thinking this is a BACKEND driven product".
 
-### How to Build (Phased Approach)
+Let's stick to the original text but format it clearly as a warning list.
 
-#### Phase 1
+- Treating this like a backend-heavy project.
+- Thinking this is a frontend-driven product (Likely means ignoring the complexity of client-side media processing).
 
+---
+
+## How to Build (Phased Approach)
+
+### Phase 1
 - Static UI
 - Fake data
 - Local audio playback
 
-#### Phase 2
-
+### Phase 2
 - Supabase authentication
 - API-based songs
 
-#### Phase 3
-
+### Phase 3
 - Remix recording
 - Karaoke recording
 
-#### Phase 4
-
+### Phase 4
 - Optional uploads
 - Performance optimization
 
+---
 
-### What Can Be Built with HTML, CSS, and JS
+## What Can Be Built with HTML, CSS, and JS
 
-#### Music Player
-
-- <audio> + Web Audio API
+### Music Player
+- `<audio>` + Web Audio API
 - Custom controls
 - Animated waveforms
 - Playlists
 - Progress scrubber
 - Background particle animations
 
-#### Remix Feature
-
-- getUserMedia
-- MediaRecorder
+### Remix Feature
+- `getUserMedia`
+- `MediaRecorder`
 - Canvas-based filters
 - CSS + JS animations
 - Reel-style timeline
 
-Vanilla JS performs better than React here.
+**Vanilla JS performs better than React here.**
 
-#### Karaoke Feature
-
+### Karaoke Feature
 - Instrumental playback
 - Microphone recording
 - Lyrics sync
 - Waveform generation
 
-Native browser APIs provide best performance.
+**Native browser APIs provide best performance.**
 
-#### Animations
-
+### Animations
 - CSS animations
-- requestAnimationFrame
+- `requestAnimationFrame`
 - Canvas
 - WebGL (optional)
